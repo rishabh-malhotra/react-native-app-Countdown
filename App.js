@@ -1,8 +1,20 @@
 import React from 'react';
 import EventList from './EventList'
+import EventForm from './EventForm'
 import {View} from 'react-native'
-export default function App() {
-  return (
-    <EventList event={"hello from app"}/> 
-  );
-}
+import {StackNavigator} from 'react-navigation'
+
+export default StackNavigator({
+  list:{
+    screen:EventList,
+    navigationOptions: ()=>({
+      title:'Your Events'
+    })
+  },
+  form:{
+    screen:EventForm,
+    navigationOptions: ()=>({
+      title:'Add an event'
+    })
+  },
+});
