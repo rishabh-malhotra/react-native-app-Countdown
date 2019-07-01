@@ -13,10 +13,8 @@ const styles=StyleSheet.create({
 })
 
 class EventList extends Component{
-    constructor(props){
-        super(props)
-        this.state={events:[]}
-    }
+
+    state={events:[]}
     
     componentDidMount(){
         setInterval(()=>{
@@ -27,7 +25,9 @@ class EventList extends Component{
                 })
             )});
         },1000);
-        getEvents().then(events => this.setState({ events }));
+        this.props.navigation.addListener('didFocus',()=>{
+            getEvents().then(events => this.setState({ events }));
+        });
     }   
 
     handleAddEvent=()=>this.props.navigation.navigate('form');

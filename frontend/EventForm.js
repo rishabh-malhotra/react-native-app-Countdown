@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {formatDateTime} from './api'
 import DateTimePicker from 'react-native-modal-datetime-picker'
-import {postEvent} from './api'
+import {saveEvent} from './api'
 import {
   View,
   Text,
@@ -50,8 +50,9 @@ class EventForm extends Component {
     date: '',
     };
   handleAddPress = () => {
-    postEvent(this.state);
-    this.props.navigation.goBack();
+    saveEvent(this.state).then(()=>
+      this.props.navigation.goBack()
+    );
   };
   handleChangeTitle = (text) => {
     this.setState({

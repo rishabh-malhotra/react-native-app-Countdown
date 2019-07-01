@@ -13,35 +13,36 @@ const api = manifest.packagerOpts.dev
 //const url=`http://${api}/events`;
 const url = `http://10.0.2.2:3000/events`;
 
-export async function getEvents() {
-  console.log("url:",url) 
-  try{
-    const resp=await axios.get(url);
-    const events=resp.data;
-    var result =events.map(e => ({ ...e, date: new Date(e.date) }))
-    console.log("events");
-    return result;  
-  }
-  catch(ex){
-    console.log(ex.stack)
-    console.log("error")
-  }
+export function getEvents(){
+  return fetch(url).then(response=>response.json()).then(events=>events.map(e => ({ ...e, date: new Date(e.date) })))
 }
 
-export function postEvent(formData){
+// export async function getEvents() {
+//   console.log("url:",url) 
+//   try{
+//     const resp=await axios.get(url);
+//     const events=resp.data;
+//     var result =events.map(e => ({ ...e, date: new Date(e.date) }))
+//     console.log("events");
+//     return result;  
+//   }
+//   catch(ex){
+//     console.log(ex.stack)
+//     console.log("error")
+//   }
+// }
+
+export function saveEvent({title,date}){
     return fetch(url,{
       method:'POST',
       body:JSON.stringify({
-        "title": formData.title,
-        "date": formData.date,
-        "id": uuid()
+        title,
+        date,
+        id: uuid()
       }),
       headers:new Headers({'content-type':'application/json'})
       }).then((response)=>response.json()).catch(ex=>console.log(ex));
   }
-  // catch(ex){
-
-  // }
 
 
 export function formatDate(dateString) {
